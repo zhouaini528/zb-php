@@ -1,9 +1,9 @@
 {
-    "name": "linwj/coinbase",
+    "name": "linwj/zb",
     "type": "library",
-    "description": "Coinbase API Like the official document interface, Support for arbitrary extension.",
+    "description": "ZB API Like the official document interface, Support for arbitrary extension.",
     "license": "MIT",
-    "keywords": ["coinbase","bitmex", "binance", "okex", "huobi","kucoin","kumex"],
+    "keywords": ["zb","coinbase","bitmex", "binance", "okex", "huobi","kucoin","kumex"],
     "authors": [
         {
             "name": "linwenjun",
@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Lin\\Coinbase\\": "./src/"
+            "Lin\\Zb\\": "./src/"
         }
     },
     "require": {

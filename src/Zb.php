@@ -5,37 +5,21 @@
 
 namespace Lin\Zb;
 
-
-use Lin\Zb\Api\Account;
-use Lin\Zb\Api\Order;
-use Lin\Zb\Api\Zb as ZbAccounts;
-use Lin\Zb\Api\Conversion;
-use Lin\Zb\Api\Deposits;
-use Lin\Zb\Api\Fees;
-use Lin\Zb\Api\Fills;
-use Lin\Zb\Api\Oracle;
-use Lin\Zb\Api\Payment;
-use Lin\Zb\Api\Product;
-use Lin\Zb\Api\Profiles;
-use Lin\Zb\Api\Reports;
-use Lin\Zb\Api\System;
-use Lin\Zb\Api\User;
-use Lin\Zb\Api\Withdrawals;
+use Lin\Zb\Api\Trade;
+use Lin\Zb\Api\Event;
 
 class Zb
 {
     protected $key;
     protected $secret;
-    protected $passphrase;
     protected $host;
     
     protected $options=[];
     
-    function __construct(string $key='',string $secret='',string $passphrase='',string $host='https://api.pro.Zb.com'){
+    function __construct(string $key='',string $secret='',string $host='https://trade.zb.live'){
         $this->key=$key;
         $this->secret=$secret;
         $this->host=$host;
-        $this->passphrase=$passphrase;
     }
     
     /**
@@ -45,7 +29,6 @@ class Zb
         return [
             'key'=>$this->key,
             'secret'=>$this->secret,
-            'passphrase'=>$this->passphrase,
             'host'=>$this->host,
             'options'=>$this->options,
         ];
@@ -61,14 +44,14 @@ class Zb
     /**
      * 
      * */
-    function account(){
-        return new Account($this->init());
+    function trade(){
+        return new Trade($this->init());
     }
     
     /**
      *
      * */
-    function oracle(){
-        return new Oracle($this->init());
+    function event(){
+        return new Event($this->init());
     }
 }

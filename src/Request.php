@@ -30,6 +30,8 @@ class Request
     
     protected $options=[];
     
+    protected $url='';
+    
     public function __construct(array $data)
     {
         $this->key=$data['key'] ?? '';
@@ -57,27 +59,20 @@ class Request
      * 
      * */
     protected function nonce(){
-        $this->nonce=time();
+        $this->nonce=time()*1000;
     }
     
     /**
      * 
      * */
     protected function signature(){
-        $body='';
-        $path=$this->type.$this->path;
+        $path=$this->host.$this->path;
+        $sort=$this->sort(array_merge(['accesskey'=>$this->key],$this->data));
+        $this->url=$path.='?'.implode('&',$sort);
         
-        if (!empty($this->data)) {
-            if($this->type=='GET') {
-                $path.='?'.http_build_query($this->data);
-            }else{
-                $body=json_encode($this->data);
-            }
-        }
+        echo $path.PHP_EOL;
         
-        $plain = $this->nonce . $path . $body;
-        
-        $this->signature = base64_encode(hash_hmac('sha256', $plain, base64_decode($this->secret), true));
+        $this->signature = hash_hmac('md5',$path,sha1($this->secret));
     }
     
     /**
@@ -86,12 +81,24 @@ class Request
     protected function headers(){
         $this->headers= [
             'Content-Type' => 'application/json',
-            
-            'CB-ACCESS-KEY'        => $this->key,
-            'CB-ACCESS-SIGN'       => $this->signature,
-            'CB-ACCESS-TIMESTAMP'  => $this->nonce,
-            'CB-ACCESS-PASSPHRASE' => $this->passphrase,
+            'User-Agent'=>'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36',
         ];
+    }
+    
+    /**
+     * 
+     * */
+    protected function sort($param)
+    {
+        $u = [];
+        $sort_rank = [];
+        foreach ($param as $k => $v) {
+            $u[] = $k . "=" . urlencode($v);
+            $sort_rank[] = ord($k);
+        }
+        asort($u);
+        
+        return $u;
     }
     
     /**
@@ -120,15 +127,11 @@ class Request
     protected function send(){
         $client = new \GuzzleHttp\Client();
         
-        $url=$this->host.$this->path;
+        //$url=$this->host.$this->path.'?accesskey='.$this->key.'&'.http_build_query($this->data);
+        $url=$this->url.'&sign='.$this->signature.'&reqTime='.$this->nonce;
         
-        if(!empty($this->data)) {
-            if($this->type=='GET') {
-                $url.='?'.http_build_query($this->data);
-            }else{
-                $this->options['body']=json_encode($this->data);
-            }
-        }
+        echo $url.PHP_EOL;
+        //die;
         
         $response = $client->request($this->type, $url, $this->options);
         

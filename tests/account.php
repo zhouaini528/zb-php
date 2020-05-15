@@ -30,7 +30,7 @@ $zb->setOptions([
 ]);
 
 try {
-    $result=$zb->event()->getAsset();
+    $result=$zb->account()->getSubUserList();
     print_r($result);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));

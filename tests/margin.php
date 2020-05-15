@@ -30,7 +30,19 @@ $zb->setOptions([
 ]);
 
 try {
-    $result=$zb->event()->getAsset();
+    $result=$zb->margin()->getLeverAssetsInfo();
+    print_r($result);
+}catch (\Exception $e){
+    print_r(json_decode($e->getMessage(),true));
+}
+
+try {
+    $result=$zb->margin()->getLeverBills([
+        'coin'=>'btc',
+        'dataType'=>0,
+        'pageIndex'=>0,
+        'pageSize'=>10
+    ]);
     print_r($result);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));

@@ -29,26 +29,16 @@ $zb->setOptions([
     //'verify'=>false,
 ]);
 
-/* 
-method	String	Direct Assignmentorder
-accesskey	String	accesskey
-amount	float	Transaction Amount
-currency	String	Transaction Coin/Pricing Coin
-price	float	unit price
-tradeType	int	Trade Types 1/0[buy/sell]
-sign	String	Request Encrypted Signature String
-reqTime	long	Current time in milliseconds
-acctType	int	Margin 1/0[Margin /Spot]（Optional,Default to: 0 Spot）
-customerOrderId	String	Custom ID
- */
-//****************************LIMIT
 try {
-    $result=$zb->trade()->order([
-        //'customerOrderId'=>'',
-        'tradeType'=>'0',//1=buy,0=sell
-        'currency'=>'btc_usdt',
-        'price'=>'11000',
-        'amount'=>'0.01',
+    $result=$zb->market()->getAllTicker();
+    print_r($result);
+}catch (\Exception $e){
+    print_r(json_decode($e->getMessage(),true));
+}
+
+try {
+    $result=$zb->market()->getTicker([
+        'market'=>'btc_usdt'
     ]);
     print_r($result);
 }catch (\Exception $e){
@@ -56,21 +46,30 @@ try {
 }
 
 try {
-    $order=$zb->trade()->getOrder([
-        //'customerOrderId'=>'',
-        'id'=>$result['id'],
-        'currency'=>'btc_usdt',
+    $result=$zb->market()->getDepth([
+        'market'=>'btc_usdt',
+        'size'=>'5'
     ]);
-    print_r($order);
+    print_r($result);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));
 }
 
 try {
-    $result=$zb->trade()->cancelOrder([
-        //'customerOrderId'=>'',
-        'id'=>$result['id'],
-        'currency'=>'btc_usdt',
+    $result=$zb->market()->getTrades([
+        'market'=>'btc_usdt',
+        'since'=>'xxxxxxxxx'
+    ]);
+    print_r($result);
+}catch (\Exception $e){
+    print_r(json_decode($e->getMessage(),true));
+}
+
+try {
+    $result=$zb->market()->getKline([
+        'market'=>'btc_usdt',
+        //'type'=>'1day',
+        'size'=>10
     ]);
     print_r($result);
 }catch (\Exception $e){

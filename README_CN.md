@@ -35,7 +35,7 @@ composer require linwj/zb
 
 支持更多的请求设置
 ```php
-$zb=new Zb();
+$zb=new Zb($key,$secret);
 
 //You can set special needs
 $zb->setOptions([
@@ -43,7 +43,7 @@ $zb->setOptions([
     'timeout'=>10,
     
     //If you are developing locally and need an agent, you can set this
-    'proxy'=>true,
+    //'proxy'=>true,
     //More flexible Settings
     /* 'proxy'=>[
      'http'  => 'http://127.0.0.1:12333',
@@ -57,20 +57,20 @@ $zb->setOptions([
 
 ### 现货交易 API
 
-Market related API [More](https://github.com/zhouaini528/zb-php/blob/master/tests/product.php)
+Market related API [More](https://github.com/zhouaini528/zb-php/blob/master/tests/market.php)
 ```php
-$zb=new Zb();
+$zb=new Zb($key,$secret);
 
 try {
-    $result=$zb->product()->getList();
+    $result=$zb->market()->getAllTicker();
     print_r($result);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));
 }
 
 try {
-    $result=$zb->product()->getBook([
-        'product_id'=>'BTC-USD',
+    $result=$zb->market()->getTicker([
+        'market'=>'btc_usdt'
     ]);
     print_r($result);
 }catch (\Exception $e){
@@ -78,8 +78,30 @@ try {
 }
 
 try {
-    $result=$zb->product()->getCandles([
-        'product_id'=>'BTC-USD',
+    $result=$zb->market()->getDepth([
+        'market'=>'btc_usdt',
+        'size'=>'5'
+    ]);
+    print_r($result);
+}catch (\Exception $e){
+    print_r(json_decode($e->getMessage(),true));
+}
+
+try {
+    $result=$zb->market()->getTrades([
+        'market'=>'btc_usdt',
+        'since'=>'xxxxxxxxx'
+    ]);
+    print_r($result);
+}catch (\Exception $e){
+    print_r(json_decode($e->getMessage(),true));
+}
+
+try {
+    $result=$zb->market()->getKline([
+        'market'=>'btc_usdt',
+        //'type'=>'1day',
+        'size'=>10
     ]);
     print_r($result);
 }catch (\Exception $e){
@@ -88,68 +110,39 @@ try {
 
 ```
 
-Order related API [More](https://github.com/zhouaini528/zb-php/blob/master/tests/order.php)
+Order related API [More](https://github.com/zhouaini528/zb-php/blob/master/tests/trade.php)
 ```php
 $zb=new Zb($key,$secret);
 
-//****************************LIMIT
 try {
-    $result=$zb->order()->post([
-        //'client_oid'=>'',
-        'type'=>'limit',
-        'side'=>'sell',
-        'product_id'=>'BTC-USD',
-        'price'=>'20000',
-        'size'=>'0.01'
+    $result=$zb->trade()->order([
+        //'customerOrderId'=>'',
+        'tradeType'=>'0',//1=buy,0=sell
+        'currency'=>'btc_usdt',
+        'price'=>'11000',
+        'amount'=>'0.01',
     ]);
     print_r($result);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));
 }
-sleep(1);
 
-//track the order
 try {
-    $result=$zb->order()->get([
+    $order=$zb->trade()->getOrder([
+        //'customerOrderId'=>'',
         'id'=>$result['id'],
+        'currency'=>'btc_usdt',
     ]);
-    print_r($result);
+    print_r($order);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));
 }
-sleep(1);
 
-//cancellation of order
 try {
-    $result=$zb->order()->delete([
+    $result=$zb->trade()->cancelOrder([
+        //'customerOrderId'=>'',
         'id'=>$result['id'],
-        //'id'=>'6bad6a7d-b01a-4a93-9e6e-e9934bcef4ef',
-    ]);
-    print_r($result);
-}catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
-}
-
-//****************************MARKET
-try {
-    $result=$zb->order()->post([
-        //'client_oid'=>'',
-        'type'=>'market',
-        'side'=>'sell',
-        'product_id'=>'BTC-USD',
-        'size'=>'0.01',
-    ]);
-    print_r($result);
-}catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
-}
-sleep(1);
-
-//track the order
-try {
-    $result=$zb->order()->get([
-        'id'=>$result['id'],
-        //'client_oid'=>''
+        'currency'=>'btc_usdt',
     ]);
     print_r($result);
 }catch (\Exception $e){
@@ -157,39 +150,12 @@ try {
 }
 ```
 
-Accounts related API [More]()
+Accounts related API [More](https://github.com/zhouaini528/zb-php/blob/master/tests/account.php)
 ```php
 $zb=new Zb($key,$secret);
 
 try {
-    $result=$zb->account()->getList();
-    print_r($result);
-}catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
-}
-
-try {
-    $result=$zb->account()->get([
-        'account_id'=>'c74a36f5-4f2b-495b-be29-6eb2458d1b3a'
-    ]);
-    print_r($result);
-}catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
-}
-
-try {
-    $result=$zb->account()->getHolds([
-        'account_id'=>'c74a36f5-4f2b-495b-be29-6eb2458d1b3a'
-    ]);
-    print_r($result);
-}catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
-}
-
-try {
-    $result=$zb->account()->getLedger([
-        'account_id'=>'c74a36f5-4f2b-495b-be29-6eb2458d1b3a'
-    ]);
+    $result=$zb->account()->getSubUserList();
     print_r($result);
 }catch (\Exception $e){
     print_r(json_decode($e->getMessage(),true));

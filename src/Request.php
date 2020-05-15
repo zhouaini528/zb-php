@@ -66,13 +66,9 @@ class Request
      * 
      * */
     protected function signature(){
-        $path=$this->host.$this->path;
         $sort=$this->sort(array_merge(['accesskey'=>$this->key],$this->data));
-        $this->url=$path.='?'.implode('&',$sort);
-        
-        echo $path.PHP_EOL;
-        
-        $this->signature = hash_hmac('md5',$path,sha1($this->secret));
+        $this->url=implode('&',$sort);
+        $this->signature = hash_hmac('md5',$this->url,sha1($this->secret));
     }
     
     /**
@@ -127,11 +123,7 @@ class Request
     protected function send(){
         $client = new \GuzzleHttp\Client();
         
-        //$url=$this->host.$this->path.'?accesskey='.$this->key.'&'.http_build_query($this->data);
-        $url=$this->url.'&sign='.$this->signature.'&reqTime='.$this->nonce;
-        
-        echo $url.PHP_EOL;
-        //die;
+        $url=$this->host.$this->path.'?'.$this->url.'&sign='.$this->signature.'&reqTime='.$this->nonce;
         
         $response = $client->request($this->type, $url, $this->options);
         

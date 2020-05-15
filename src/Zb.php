@@ -7,6 +7,9 @@ namespace Lin\Zb;
 
 use Lin\Zb\Api\Trade;
 use Lin\Zb\Api\Event;
+use Lin\Zb\Api\Account;
+use Lin\Zb\Api\Margin;
+use Lin\Zb\Api\Market;
 
 class Zb
 {
@@ -42,6 +45,13 @@ class Zb
     }
     
     /**
+     *
+     * */
+    function account(){
+        return new Account($this->init());
+    }
+    
+    /**
      * 
      * */
     function trade(){
@@ -53,5 +63,19 @@ class Zb
      * */
     function event(){
         return new Event($this->init());
+    }
+    
+    /**
+     *
+     * */
+    function margin(){
+        return new Margin($this->init());
+    }
+    
+    /**
+     *
+     * */
+    function market(){
+        return new Market($this->init());
     }
 }

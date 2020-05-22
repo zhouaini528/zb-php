@@ -2,7 +2,7 @@
 
 ZB docs [https://www.zb.live/api](https://www.zb.live/api)
 
-All interface methods are initialized the same as those provided by okex. See details [src/api](https://github.com/zhouaini528/zb-php/tree/master/src/Api)
+All interface methods are initialized the same as those provided by Zb. See details [src/api](https://github.com/zhouaini528/zb-php/tree/master/src/Api)
 
 Most of the interface is now complete, and the user can continue to extend it based on my design, working with me to improve it.
 

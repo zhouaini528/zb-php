@@ -32,6 +32,8 @@ ZB 文档地址 [https://www.zb.com/api](https://www.zb.com/api)
 
 [Bittrex](https://github.com/zhouaini528/bittrex-php)
 
+[Gate](https://github.com/zhouaini528/gate-php)
+
 #### 安装方式
 ```
 composer require linwj/zb

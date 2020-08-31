@@ -34,7 +34,9 @@ ZB 文档地址 [https://www.zb.com/api](https://www.zb.com/api)
 
 [Gate](https://github.com/zhouaini528/gate-php)
 
-[Bigone](https://github.com/zhouaini528/bigone-php)   
+[Bigone](https://github.com/zhouaini528/bigone-php) 
+
+[Crex24](https://github.com/zhouaini528/crex24-php)     
 
 #### 安装方式
 ```
@@ -73,7 +75,7 @@ try {
     $result=$zb->market()->getAllTicker();
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 try {
@@ -82,7 +84,7 @@ try {
     ]);
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 try {
@@ -92,7 +94,7 @@ try {
     ]);
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 try {
@@ -102,7 +104,7 @@ try {
     ]);
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 try {
@@ -113,7 +115,7 @@ try {
     ]);
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 ```
@@ -132,7 +134,7 @@ try {
     ]);
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 try {
@@ -143,7 +145,7 @@ try {
     ]);
     print_r($order);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 try {
@@ -154,7 +156,7 @@ try {
     ]);
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 ```
 
@@ -166,7 +168,7 @@ try {
     $result=$zb->account()->getSubUserList();
     print_r($result);
 }catch (\Exception $e){
-    print_r(json_decode($e->getMessage(),true));
+    print_r($e->getMessage());
 }
 
 ```

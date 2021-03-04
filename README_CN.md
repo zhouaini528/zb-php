@@ -8,6 +8,8 @@ ZB 文档地址 [https://www.zb.com/api](https://www.zb.com/api)
 
 [English Document](https://github.com/zhouaini528/zb-php/blob/master/README.md)
 
+QQ交流群：668421169
+
 ### 其他交易所API
 
 [Exchanges](https://github.com/zhouaini528/exchanges-php) 它包含以下所有交易所，强烈推荐使用该SDK。
